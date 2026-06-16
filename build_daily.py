@@ -151,7 +151,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#c8826a">
+<meta name="theme-color" content="#1ab87a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="AI 日报">
@@ -168,28 +168,28 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <title>AI HOT 日报 · {date_label}</title>
 <style>
   :root {{
-    --morandi-bg:       #f0ede8;
-    --morandi-surface:  #e8e4de;
-    --morandi-card:     #f5f2ee;
-    --morandi-border:   #d8d2c8;
-    --morandi-text:     #4a4540;
-    --morandi-muted:    #8a8278;
-    --morandi-light:    #c8c2b8;
-    --c-model:    #b8a89a;
-    --c-product:  #9aaeaa;
-    --c-industry: #a8a8b8;
-    --c-paper:    #b8b298;
-    --c-tip:      #a8b8a8;
-    --hero-from:  #c8826a;
-    --hero-to:    #8a6258;
+    --morandi-bg:       #e8f5ee;
+    --morandi-surface:  #d8f0e8;
+    --morandi-card:     #ffffff;
+    --morandi-border:   #b8e8d0;
+    --morandi-text:     #1a3a2a;
+    --morandi-muted:    #5a8a7a;
+    --morandi-light:    #a0cfb8;
+    --c-model:    #1ab87a;
+    --c-product:  #3a98d8;
+    --c-industry: #6a4cb8;
+    --c-paper:    #d88820;
+    --c-tip:      #20a060;
+    --hero-from:  #c8e8d8;
+    --hero-to:    #d8e0f0;
     --radius: 12px;
-    --shadow: 0 2px 12px rgba(74,69,64,0.10);
-    --shadow-hover: 0 6px 24px rgba(74,69,64,0.18);
+    --shadow: 0 2px 12px rgba(26,58,42,0.08);
+    --shadow-hover: 0 6px 24px rgba(26,58,42,0.14);
     --font: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
   }}
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
   body {{ font-family: var(--font); background: var(--morandi-bg); color: var(--morandi-text); line-height: 1.7; }}
-  .hero {{ background: linear-gradient(135deg, var(--hero-from) 0%, var(--hero-to) 100%); color: #f5f0ec; padding: 48px 24px 40px; text-align: center; position: relative; overflow: hidden; }}
+  .hero {{ background: linear-gradient(135deg, var(--hero-from) 0%, var(--hero-to) 100%); color: #1a3a2a; padding: 48px 24px 40px; text-align: center; position: relative; overflow: hidden; }}
   .hero-label {{ font-size: 13px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.75; margin-bottom: 12px; }}
   .hero-title {{ font-size: clamp(26px, 5vw, 42px); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }}
   .hero-subtitle {{ font-size: 15px; opacity: 0.80; margin-bottom: 32px; }}
@@ -197,8 +197,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .stat-item {{ text-align: center; }}
   .stat-num {{ font-size: clamp(28px, 5vw, 44px); font-weight: 800; line-height: 1; }}
   .stat-label {{ font-size: 12px; opacity: 0.72; margin-top: 4px; letter-spacing: 0.5px; }}
-  .stat-divider {{ width: 1px; background: rgba(245,240,236,0.25); align-self: stretch; margin: 4px 0; }}
-  .nav-wrap {{ position: sticky; top: 0; z-index: 100; background: var(--morandi-surface); border-bottom: 1px solid var(--morandi-border); padding: 0 16px; overflow-x: auto; scrollbar-width: none; }}
+  .stat-divider {{ width: 1px; background: rgba(26,58,42,0.12); align-self: stretch; margin: 4px 0; }}
+  .nav-wrap {{ position: sticky; top: 0; z-index: 100; background: rgba(216,240,232,0.92); border-bottom: 1px solid var(--morandi-border); padding: 0 16px; overflow-x: auto; scrollbar-width: none; }}
   .nav-wrap::-webkit-scrollbar {{ display: none; }}
   .nav {{ display: flex; gap: 4px; max-width: 960px; margin: 0 auto; padding: 10px 0; white-space: nowrap; }}
   .nav a {{ display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; text-decoration: none; color: var(--morandi-muted); transition: all 0.2s; }}
@@ -215,7 +215,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .section-header {{ display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--morandi-border); }}
   .section-dot {{ width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }}
   .section-title {{ font-size: 18px; font-weight: 700; color: var(--morandi-text); flex: 1; }}
-  .section-count {{ font-size: 13px; color: var(--morandi-muted); background: var(--morandi-surface); border: 1px solid var(--morandi-border); border-radius: 12px; padding: 2px 10px; }}
+  .section-count {{ font-size: 13px; color: var(--morandi-muted); background: rgba(216,240,232,0.92); border: 1px solid var(--morandi-border); border-radius: 12px; padding: 2px 10px; }}
   .cards {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 16px; }}
   .card {{ background: var(--morandi-card); border: 1px solid var(--morandi-border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s; position: relative; overflow: hidden; }}
   .card::before {{ content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: var(--radius) var(--radius) 0 0; }}
@@ -232,17 +232,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .card[data-section="industry"] .card-num {{ background: var(--c-industry); }}
   .card[data-section="paper"]    .card-num {{ background: var(--c-paper); }}
   .card[data-section="tip"]      .card-num {{ background: var(--c-tip); }}
-  .card-source {{ font-size: 11px; color: var(--morandi-muted); background: var(--morandi-surface); border: 1px solid var(--morandi-border); border-radius: 10px; padding: 2px 8px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+  .card-source {{ font-size: 11px; color: var(--morandi-muted); background: rgba(216,240,232,0.92); border: 1px solid var(--morandi-border); border-radius: 10px; padding: 2px 8px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
   .card-time {{ font-size: 11px; color: var(--morandi-light); margin-left: auto; }}
   .card-title {{ font-size: 15px; font-weight: 600; color: var(--morandi-text); line-height: 1.5; }}
   .card-summary {{ font-size: 13.5px; color: var(--morandi-muted); line-height: 1.7; flex: 1; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }}
   .card-footer {{ margin-top: 4px; }}
-  .card-link {{ display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; color: var(--morandi-muted); text-decoration: none; padding: 5px 12px; border: 1px solid var(--morandi-border); border-radius: 8px; background: var(--morandi-surface); transition: all 0.2s; }}
-  .card-link:hover {{ color: var(--morandi-text); border-color: var(--morandi-muted); background: var(--morandi-card); }}
+  .card-link {{ display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; color: var(--morandi-muted); text-decoration: none; padding: 5px 12px; border: 1px solid var(--morandi-border); border-radius: 8px; background: rgba(216,240,232,0.92); transition: all 0.2s; }}
+  .card-link:hover {{ color: var(--c-model); border-color: var(--c-model); background: rgba(26,184,122,0.06); }}
   .card-link svg {{ width: 11px; height: 11px; opacity: 0.7; }}
   .footer {{ text-align: center; font-size: 12px; color: var(--morandi-light); padding: 24px 16px 40px; border-top: 1px solid var(--morandi-border); max-width: 960px; margin: 0 auto; }}
   .footer a {{ color: var(--morandi-muted); text-decoration: none; }}
-  .footer a:hover {{ text-decoration: underline; }}
+  .footer a:hover {{ text-decoration: underline; color: var(--c-model); }}
   @media (max-width: 600px) {{ .hero {{ padding: 36px 16px 32px; }} .cards {{ grid-template-columns: 1fr; }} .stat-divider {{ display: none; }} }}
 </style>
 </head>

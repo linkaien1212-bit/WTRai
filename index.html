@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#c8826a">
+<meta name="theme-color" content="#1ab87a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="AI 日报">
@@ -20,82 +20,89 @@
 <title>AI HOT 日报 · 2026年06月16日</title>
 <style>
   :root {
-    --morandi-bg:       #f0ede8;
-    --morandi-surface:  #e8e4de;
-    --morandi-card:     #f5f2ee;
-    --morandi-border:   #d8d2c8;
-    --morandi-text:     #4a4540;
-    --morandi-muted:    #8a8278;
-    --morandi-light:    #c8c2b8;
-    --c-model:    #b8a89a;
-    --c-product:  #9aaeaa;
-    --c-industry: #a8a8b8;
-    --c-paper:    #b8b298;
-    --c-tip:      #a8b8a8;
-    --hero-from:  #c8826a;
-    --hero-to:    #8a6258;
+    --bg:             #e8f5ee;
+    --surface:        #d8f0e8;
+    --card:           #ffffff;
+    --border:         #b8e8d0;
+    --text:           #1a3a2a;
+    --muted:          #5a8a7a;
+    --light:          #a0cfb8;
+    --c-model:        #1ab87a;
+    --c-product:      #3a98d8;
+    --c-industry:     #6a4cb8;
+    --c-paper:       #d88820;
+    --c-tip:         #20a060;
+    --hero-from:      #c8e8d8;
+    --hero-to:        #d8e0f0;
+    --hero-text:      #1a3a2a;
     --radius: 12px;
-    --shadow: 0 2px 12px rgba(74,69,64,0.10);
-    --shadow-hover: 0 6px 24px rgba(74,69,64,0.18);
+    --shadow: 0 2px 12px rgba(26,58,42,0.08);
+    --shadow-hover: 0 6px 24px rgba(26,58,42,0.14);
     --font: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--font); background: var(--morandi-bg); color: var(--morandi-text); line-height: 1.7; }
-  .hero { background: linear-gradient(135deg, var(--hero-from) 0%, var(--hero-to) 100%); color: #f5f0ec; padding: 48px 24px 40px; text-align: center; position: relative; overflow: hidden; }
-  .hero-label { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.75; margin-bottom: 12px; }
-  .hero-title { font-size: clamp(26px, 5vw, 42px); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
-  .hero-subtitle { font-size: 15px; opacity: 0.80; margin-bottom: 32px; }
-  .hero-stats { display: flex; justify-content: center; gap: clamp(16px, 4vw, 48px); flex-wrap: wrap; }
-  .stat-item { text-align: center; }
-  .stat-num { font-size: clamp(28px, 5vw, 44px); font-weight: 800; line-height: 1; }
-  .stat-label { font-size: 12px; opacity: 0.72; margin-top: 4px; letter-spacing: 0.5px; }
-  .stat-divider { width: 1px; background: rgba(245,240,236,0.25); align-self: stretch; margin: 4px 0; }
-  .nav-wrap { position: sticky; top: 0; z-index: 100; background: var(--morandi-surface); border-bottom: 1px solid var(--morandi-border); padding: 0 16px; overflow-x: auto; scrollbar-width: none; }
-  .nav-wrap::-webkit-scrollbar { display: none; }
-  .nav { display: flex; gap: 4px; max-width: 960px; margin: 0 auto; padding: 10px 0; white-space: nowrap; }
-  .nav a { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; text-decoration: none; color: var(--morandi-muted); transition: all 0.2s; }
-  .nav a:hover { color: var(--morandi-text); background: var(--morandi-card); }
-  .nav a .badge { font-size: 11px; background: var(--morandi-border); color: var(--morandi-muted); border-radius: 10px; padding: 1px 6px; transition: all 0.2s; }
-  .nav a[data-section="model"]   { color: var(--c-model); }
-  .nav a[data-section="product"] { color: var(--c-product); }
-  .nav a[data-section="industry"]{ color: var(--c-industry); }
-  .nav a[data-section="paper"]   { color: var(--c-paper); }
-  .nav a[data-section="tip"]     { color: var(--c-tip); }
-  main { max-width: 960px; margin: 0 auto; padding: 40px 16px 80px; }
-  .section { margin-bottom: 56px; opacity: 0; transform: translateY(24px); transition: opacity 0.5s ease, transform 0.5s ease; }
-  .section.visible { opacity: 1; transform: none; }
-  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--morandi-border); }
-  .section-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-  .section-title { font-size: 18px; font-weight: 700; color: var(--morandi-text); flex: 1; }
-  .section-count { font-size: 13px; color: var(--morandi-muted); background: var(--morandi-surface); border: 1px solid var(--morandi-border); border-radius: 12px; padding: 2px 10px; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 16px; }
-  .card { background: var(--morandi-card); border: 1px solid var(--morandi-border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
-  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: var(--radius) var(--radius) 0 0; }
-  .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
-  .card[data-section="model"]::before    { background: var(--c-model); }
-  .card[data-section="product"]::before  { background: var(--c-product); }
-  .card[data-section="industry"]::before { background: var(--c-industry); }
-  .card[data-section="paper"]::before    { background: var(--c-paper); }
-  .card[data-section="tip"]::before      { background: var(--c-tip); }
-  .card-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .card-num { font-size: 11px; font-weight: 700; color: #fff; border-radius: 6px; padding: 2px 8px; letter-spacing: 0.5px; flex-shrink: 0; }
-  .card[data-section="model"]    .card-num { background: var(--c-model); }
-  .card[data-section="product"]  .card-num { background: var(--c-product); }
-  .card[data-section="industry"] .card-num { background: var(--c-industry); }
-  .card[data-section="paper"]    .card-num { background: var(--c-paper); }
-  .card[data-section="tip"]      .card-num { background: var(--c-tip); }
-  .card-source { font-size: 11px; color: var(--morandi-muted); background: var(--morandi-surface); border: 1px solid var(--morandi-border); border-radius: 10px; padding: 2px 8px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .card-time { font-size: 11px; color: var(--morandi-light); margin-left: auto; }
-  .card-title { font-size: 15px; font-weight: 600; color: var(--morandi-text); line-height: 1.5; }
-  .card-summary { font-size: 13.5px; color: var(--morandi-muted); line-height: 1.7; flex: 1; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-  .card-footer { margin-top: 4px; }
-  .card-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; color: var(--morandi-muted); text-decoration: none; padding: 5px 12px; border: 1px solid var(--morandi-border); border-radius: 8px; background: var(--morandi-surface); transition: all 0.2s; }
-  .card-link:hover { color: var(--morandi-text); border-color: var(--morandi-muted); background: var(--morandi-card); }
-  .card-link svg { width: 11px; height: 11px; opacity: 0.7; }
-  .footer { text-align: center; font-size: 12px; color: var(--morandi-light); padding: 24px 16px 40px; border-top: 1px solid var(--morandi-border); max-width: 960px; margin: 0 auto; }
-  .footer a { color: var(--morandi-muted); text-decoration: none; }
-  .footer a:hover { text-decoration: underline; }
-  @media (max-width: 600px) { .hero { padding: 36px 16px 32px; } .cards { grid-template-columns: 1fr; } .stat-divider { display: none; } }
+  * { box-sizing: border-box; margin:0; padding:0; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.7; }
+  .hero { background: linear-gradient(135deg, var(--hero-from) 0%, var(--hero-to) 100%); color: var(--hero-text); padding: 48px 24px 40px; text-align:center; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 20% 50%, rgba(26,184,122,0.10) 0%, transparent 70%), radial-gradient(ellipse at 80% 50%, rgba(58,152,216,0.08) 0%, transparent 70%); pointer-events:none; }
+  .hero-label { font-size:13px; letter-spacing:3px; text-transform:uppercase; opacity:0.55; margin-bottom:12px; font-weight:600; color:#1a9a78; }
+  .hero-title { font-size:clamp(26px,5vw,42px); font-weight:800; letter-spacing:-0.5px; margin-bottom:6px; color:#0d2a1a; }
+  .hero-subtitle { font-size:15px; opacity:0.65; margin-bottom:32px; color:#2a5a3a; }
+  .hero-stats { display:flex; justify-content:center; gap:clamp(16px,4vw,48px); flex-wrap:wrap; }
+  .stat-item { text-align:center; }
+  .stat-num { font-size:clamp(28px,5vw,44px); font-weight:800; line-height:1; color:#1a9a78; }
+  .stat-label { font-size:12px; opacity:0.60; margin-top:4px; letter-spacing:0.5px; color:#2a5a3a; }
+  .stat-divider { width:1px; background:rgba(26,58,42,0.12); align-self:stretch; margin:4px 0; }
+  .nav-wrap { position:sticky; top:0; z-index:100; background:rgba(216,240,232,0.92); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 16px; overflow-x:auto; scrollbar-width:none; }
+  .nav-wrap::-webkit-scrollbar { display:none; }
+  .nav { display:flex; gap:4px; max-width:960px; margin:0 auto; padding:10px 0; white-space:nowrap; }
+  .nav a { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:20px; font-size:13px; font-weight:500; text-decoration:none; color:var(--muted); transition:all 0.2s; }
+  .nav a:hover { color:var(--text); background:rgba(255,255,255,0.7); }
+  .nav a .badge { font-size:11px; background:rgba(255,255,255,0.7); color:var(--muted); border-radius:10px; padding:1px 6px; transition:all 0.2s; }
+  .nav a[data-section="model"]   { color:var(--c-model); }
+  .nav a[data-section="product"] { color:var(--c-product); }
+  .nav a[data-section="industry"]{ color:var(--c-industry); }
+  .nav a[data-section="paper"]   { color:var(--c-paper); }
+  .nav a[data-section="tip"]     { color:var(--c-tip); }
+  main { max-width:960px; margin:0 auto; padding:40px 16px 80px; }
+  .section { margin-bottom:56px; opacity:0; transform:translateY(24px); transition:opacity 0.5s ease, transform 0.5s ease; }
+  .section.visible { opacity:1; transform:none; }
+  .section-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid var(--border); }
+  .section-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+  .section-title { font-size:18px; font-weight:700; color:var(--text); flex:1; }
+  .section-count { font-size:13px; color:var(--muted); background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:2px 10px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%,420px),1fr)); gap:16px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:10px; transition:box-shadow 0.2s, transform 0.2s, border-color 0.2s; position:relative; overflow:hidden; }
+  .card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:var(--radius) var(--radius) 0 0; }
+  .card:hover { box-shadow:var(--shadow-hover); transform:translateY(-2px); border-color:rgba(26,184,122,0.3); }
+  .card[data-section="model"]::before    { background:var(--c-model); }
+  .card[data-section="product"]::before  { background:var(--c-product); }
+  .card[data-section="industry"]::before { background:var(--c-industry); }
+  .card[data-section="paper"]::before    { background:var(--c-paper); }
+  .card[data-section="tip"]::before      { background:var(--c-tip); }
+  .card-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .card-num { font-size:11px; font-weight:700; color:#fff; border-radius:6px; padding:2px 8px; letter-spacing:0.5px; flex-shrink:0; }
+  .card[data-section="model"]    .card-num { background:var(--c-model); }
+  .card[data-section="product"]  .card-num { background:var(--c-product); }
+  .card[data-section="industry"] .card-num { background:var(--c-industry); }
+  .card[data-section="paper"]    .card-num { background:var(--c-paper); }
+  .card[data-section="tip"]      .card-num { background:var(--c-tip); }
+  .card-source { font-size:11px; color:var(--muted); background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:2px 8px; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .card-time { font-size:11px; color:var(--light); margin-left:auto; }
+  .card-title { font-size:15px; font-weight:600; color:var(--text); line-height:1.5; }
+  .card-summary { font-size:13.5px; color:var(--muted); line-height:1.7; flex:1; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+  .card-footer { margin-top:4px; }
+  .card-link { display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:500; color:var(--muted); text-decoration:none; padding:5px 12px; border:1px solid var(--border); border-radius:8px; background:var(--surface); transition:all 0.2s; }
+  .card-link:hover { color:var(--c-model); border-color:var(--c-model); background:rgba(26,184,122,0.06); }
+  .card-link svg { width:11px; height:11px; opacity:0.7; }
+  .footer { text-align:center; font-size:12px; color:var(--light); padding:24px 16px 40px; border-top:1px solid var(--border); max-width:960px; margin:0 auto; }
+  .footer a { color:var(--muted); text-decoration:none; }
+  .footer a:hover { text-decoration:underline; color:var(--c-model); }
+  .section-dot[data-section="model"]   { background:var(--c-model); }
+  .section-dot[data-section="product"] { background:var(--c-product); }
+  .section-dot[data-section="industry"]{ background:var(--c-industry); }
+  .section-dot[data-section="paper"]   { background:var(--c-paper); }
+  .section-dot[data-section="tip"]     { background:var(--c-tip); }
+  @media (max-width:600px) { .hero { padding:36px 16px 32px; } .cards { grid-template-columns:1fr; } .stat-divider { display:none; } }
 </style>
 </head>
 <body>
@@ -130,7 +137,7 @@
   <!-- 模型发布/更新 -->
   <section class="section" id="ai-models">
     <div class="section-header">
-      <div class="section-dot" style="background:var(--c-ai-models)"></div>
+      <div class="section-dot" data-section="model"></div>
       <div class="section-title">模型发布/更新</div>
       <span class="section-count">2 条</span>
     </div>
@@ -174,7 +181,7 @@
   <!-- 产品发布/更新 -->
   <section class="section" id="ai-products">
     <div class="section-header">
-      <div class="section-dot" style="background:var(--c-ai-products)"></div>
+      <div class="section-dot" data-section="product"></div>
       <div class="section-title">产品发布/更新</div>
       <span class="section-count">7 条</span>
     </div>
@@ -218,8 +225,8 @@
           <span class="card-source">TechCrunch：AI（RSS）</span>
           <span class="card-time">今天上午 08:00</span>
         </div>
-        <div class="card-title">Meta 在 Facebook 上线“AI Mode”，基于平台公开信息合成答案</div>
-        <div class="card-summary">Meta 宣布在 Facebook 推出“AI Mode”搜索功能，利用 Meta AI 从公开帖子（含群组和 Ree…</div>
+        <div class="card-title">Meta 在 Facebook 上线"AI Mode"，基于平台公开信息合成答案</div>
+        <div class="card-summary">Meta 宣布在 Facebook 推出"AI Mode"搜索功能，利用 Meta AI 从公开帖子（含群组和 Ree…</div>
         <div class="card-footer">
           <a class="card-link" href="https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms" target="_blank" rel="noopener noreferrer">
             阅读原文
@@ -298,7 +305,7 @@
   <!-- 行业动态 -->
   <section class="section" id="industry">
     <div class="section-header">
-      <div class="section-dot" style="background:var(--c-industry)"></div>
+      <div class="section-dot" data-section="industry"></div>
       <div class="section-title">行业动态</div>
       <span class="section-count">4 条</span>
     </div>
@@ -374,7 +381,7 @@
   <!-- 技巧与观点 -->
   <section class="section" id="tip">
     <div class="section-header">
-      <div class="section-dot" style="background:var(--c-tip)"></div>
+      <div class="section-dot" data-section="tip"></div>
       <div class="section-title">技巧与观点</div>
       <span class="section-count">4 条</span>
     </div>
@@ -389,7 +396,7 @@
         <div class="card-title">Skydio CEO Adam Bry：硅谷不应为无人机使用画红线</div>
         <div class="card-summary">Skydio是美国最大的无人机制造商，主攻公共安全、军事、能源、基建巡检等企业市场。CEO Adam Bry表示，特朗…</div>
         <div class="card-footer">
-          <a class="card-link" href="https://www.theverge.com/podcast/949195/skydio-ceo-adam-bry-autonmous-drones-china-red-lines-military" target="_blank" rel="noopener noreferrer">
+          <a class="card-link" href="https://www.theverge.com/podcast/949195/skydio-ceo-adam-bry-autonomous-drones-china-red-lines-military" target="_blank" rel="noopener noreferrer">
             阅读原文
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
           </a>
@@ -405,7 +412,7 @@
         <div class="card-title">AI裁员浪潮成为火药桶</div>
         <div class="card-summary">今年科技公司已累计裁员约15万人，日均974人，速度比去年快44%；上月裁员近4万创两年新高，AI连续三个月被列为裁员…</div>
         <div class="card-footer">
-          <a class="card-link" href="https://techcrunch.com/2026/06/15/the-ai-layoff-wave-is-becoming-a-powder-keg" target="_blank" rel="noopener noreferrer">
+          <a class="card-link" href="https://techcrunch.com/2026/06/15/the-ai-layoff-wave-is-coming-a-powder-keg" target="_blank" rel="noopener noreferrer">
             阅读原文
             <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
           </a>
