@@ -1,0 +1,54 @@
+name: Daily AI HOT Briefing
+
+on:
+  schedule:
+    # 北京时间 8:00 和 20:00（UTC 0:00 和 12:00）
+    - cron: '0 0,12 * * *'
+  workflow_dispatch:
+    # 支持手动触发（仓库 Actions 页面点 Run workflow）
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # 用 secrets.GH_PUSH_TOKEN 推回 main 分支
+          token: ${{ secrets.GH_PUSH_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Generate today's daily HTML
+        env:
+          UA: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+        run: |
+          python build_daily.py
+
+      - name: Commit & push (only when changed)
+        run: |
+          git config user.name  "WTRai Daily Bot"
+          git config user.email "wtrai-bot@users.noreply.github.com"
+          if git status --porcelain | grep -q .; then
+            git add -A
+            git commit -m "chore: 刷新 AI 日报 ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+            git push
+            echo "Pushed new daily."
+          else
+            echo "No changes to commit."
+          fi
