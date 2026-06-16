@@ -1,0 +1,48 @@
+{
+  "name": "AI HOT 日报",
+  "short_name": "AI日报",
+  "description": "每天早晨一份精选的 AI 行业晨报，五大版块：模型、产品、行业、论文、技巧。",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f0ede8",
+  "theme_color": "#c8826a",
+  "categories": ["news", "productivity", "education"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "今日模型发布",
+      "short_name": "模型",
+      "url": "./index.html#model",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "今日产品发布",
+      "short_name": "产品",
+      "url": "./index.html#product",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

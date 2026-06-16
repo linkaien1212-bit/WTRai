@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<!-- PWA 基础 -->
+<meta name="theme-color" content="#c8826a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="AI 日报">
+<meta name="application-name" content="AI 日报">
+<meta name="description" content="每天早晨一份精选的 AI 行业晨报：模型、产品、行业、论文、技巧。">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- 图标 -->
+<link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" sizes="180x180">
+<link rel="apple-touch-icon" href="icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/icon-512.png" sizes="512x512">
+
+<!-- 应用清单 -->
+<link rel="manifest" href="manifest.json">
+
+<title>AI HOT 日报 · 2026年6月16日</title>
+<style>
+  :root {
+    /* 莫兰迪色系主色板 */
+    --morandi-bg:       #f0ede8;
+    --morandi-surface:  #e8e4de;
+    --morandi-card:     #f5f2ee;
+    --morandi-border:   #d8d2c8;
+    --morandi-text:     #4a4540;
+    --morandi-muted:    #8a8278;
+    --morandi-light:    #c8c2b8;
+
+    /* 版块色彩（莫兰迪低饱和） */
+    --c-model:    #b8a89a;   /* 模型发布/更新 - 灰棕玫 */
+    --c-product:  #9aaeaa;   /* 产品发布/更新 - 灰绿蓝 */
+    --c-industry: #a8a8b8;   /* 行业动态       - 灰紫蓝 */
+    --c-paper:    #b8b298;   /* 论文研究       - 灰黄沙 */
+    --c-tip:      #a8b8a8;   /* 技巧与观点     - 灰艾绿 */
+
+    /* hero 渐变依旧用橙红晨报风，但降饱和至莫兰迪调 */
+    --hero-from:  #c8826a;
+    --hero-to:    #8a6258;
+
+    --radius: 12px;
+    --shadow: 0 2px 12px rgba(74,69,64,0.10);
+    --shadow-hover: 0 6px 24px rgba(74,69,64,0.18);
+    --font: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background: var(--morandi-bg);
+    color: var(--morandi-text);
+    line-height: 1.7;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--hero-from) 0%, var(--hero-to) 100%);
+    color: #f5f0ec;
+    padding: 48px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f5f0ec' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-label {
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 12px;
+  }
+  .hero-title {
+    font-size: clamp(26px, 5vw, 42px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .hero-subtitle {
+    font-size: 15px;
+    opacity: 0.80;
+    margin-bottom: 32px;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: clamp(16px, 4vw, 48px);
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-num {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px;
+    opacity: 0.72;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+  }
+  .stat-divider {
+    width: 1px;
+    background: rgba(245,240,236,0.25);
+    align-self: stretch;
+    margin: 4px 0;
+  }
+
+  /* ── NAV ── */
+  .nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--morandi-surface);
+    border-bottom: 1px solid var(--morandi-border);
+    padding: 0 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-wrap::-webkit-scrollbar { display: none; }
+  .nav {
+    display: flex;
+    gap: 4px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 10px 0;
+    white-space: nowrap;
+  }
+  .nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--morandi-muted);
+    transition: all 0.2s;
+  }
+  .nav a:hover {
+    color: var(--morandi-text);
+    background: var(--morandi-card);
+  }
+  .nav a .badge {
+    font-size: 11px;
+    background: var(--morandi-border);
+    color: var(--morandi-muted);
+    border-radius: 10px;
+    padding: 1px 6px;
+    transition: all 0.2s;
+  }
+  .nav a[data-section="model"]   { color: var(--c-model); }
+  .nav a[data-section="product"] { color: var(--c-product); }
+  .nav a[data-section="industry"]{ color: var(--c-industry); }
+  .nav a[data-section="paper"]   { color: var(--c-paper); }
+  .nav a[data-section="tip"]     { color: var(--c-tip); }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 16px 80px;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 56px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .section.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--morandi-border);
+  }
+  .section-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--morandi-text);
+    flex: 1;
+  }
+  .section-count {
+    font-size: 13px;
+    color: var(--morandi-muted);
+    background: var(--morandi-surface);
+    border: 1px solid var(--morandi-border);
+    border-radius: 12px;
+    padding: 2px 10px;
+  }
+
+  /* ── CARDS ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--morandi-card);
+    border: 1px solid var(--morandi-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .card[data-section="model"]::before    { background: var(--c-model); }
+  .card[data-section="product"]::before  { background: var(--c-product); }
+  .card[data-section="industry"]::before { background: var(--c-industry); }
+  .card[data-section="paper"]::before    { background: var(--c-paper); }
+  .card[data-section="tip"]::before      { background: var(--c-tip); }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .card-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    border-radius: 6px;
+    padding: 2px 8px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+  .card[data-section="model"]    .card-num { background: var(--c-model); }
+  .card[data-section="product"]  .card-num { background: var(--c-product); }
+  .card[data-section="industry"] .card-num { background: var(--c-industry); }
+  .card[data-section="paper"]    .card-num { background: var(--c-paper); }
+  .card[data-section="tip"]      .card-num { background: var(--c-tip); }
+
+  .card-source {
+    font-size: 11px;
+    color: var(--morandi-muted);
+    background: var(--morandi-surface);
+    border: 1px solid var(--morandi-border);
+    border-radius: 10px;
+    padding: 2px 8px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .card-time {
+    font-size: 11px;
+    color: var(--morandi-light);
+    margin-left: auto;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--morandi-text);
+    line-height: 1.5;
+  }
+  .card-summary {
+    font-size: 13.5px;
+    color: var(--morandi-muted);
+    line-height: 1.7;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-footer {
+    margin-top: 4px;
+  }
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--morandi-muted);
+    text-decoration: none;
+    padding: 5px 12px;
+    border: 1px solid var(--morandi-border);
+    border-radius: 8px;
+    background: var(--morandi-surface);
+    transition: all 0.2s;
+  }
+  .card-link:hover {
+    color: var(--morandi-text);
+    border-color: var(--morandi-muted);
+    background: var(--morandi-card);
+  }
+  .card-link svg {
+    width: 11px; height: 11px;
+    opacity: 0.7;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--morandi-light);
+    padding: 24px 16px 40px;
+    border-top: 1px solid var(--morandi-border);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .footer a {
+    color: var(--morandi-muted);
+    text-decoration: none;
+  }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .hero { padding: 36px 16px 32px; }
+    .cards { grid-template-columns: 1fr; }
+    .stat-divider { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-label">AI HOT · Morning Briefing</div>
+  <div class="hero-title">AI 日报</div>
+  <div class="hero-subtitle">2026年6月16日 · 星期二 · 北京时间晨报</div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">21</div>
+      <div class="stat-label">今日总条数</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num">2</div>
+      <div class="stat-label">模型发布/更新</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num">7</div>
+      <div class="stat-label">产品发布/更新</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num">4</div>
+      <div class="stat-label">行业动态</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num">0</div>
+      <div class="stat-label">论文研究</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num">4</div>
+      <div class="stat-label">技巧与观点</div>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav-wrap">
+  <div class="nav">
+    <a href="#model" data-section="model">🤖 模型发布/更新 <span class="badge">2</span></a>
+    <a href="#product" data-section="product">🚀 产品发布/更新 <span class="badge">7</span></a>
+    <a href="#industry" data-section="industry">🏭 行业动态 <span class="badge">4</span></a>
+    <a href="#paper" data-section="paper">📄 论文研究 <span class="badge">0</span></a>
+    <a href="#tip" data-section="tip">💡 技巧与观点 <span class="badge">4</span></a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+  <!-- 模型发布/更新 -->
+  <section class="section" id="model">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--c-model)"></div>
+      <div class="section-title">模型发布/更新</div>
+      <span class="section-count">2 条</span>
+    </div>
+    <div class="cards">
+
+      <div class="card" data-section="model">
+        <div class="card-meta">
+          <span class="card-num">NO.01</span>
+          <span class="card-source">公众号：MiniMax</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">MiniMax 开源 M3 模型权重及 MSA 技术论文</div>
+        <div class="card-summary">MiniMax 开源 428B 总参数、23B 激活参数的 M3 模型，发布 MSA 稀疏注意力论文，显著降低长上下文成本。M3 是首个从预训练就进行多模态交错混合训练的开源模型，开源两周后登 Artificial Analysis 综合智能榜开源第一，输出速度已从 30 TPS 提升至约 80 TPS。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://mp.weixin.qq.com/s/AW6L89QZkwN-jD27hQ84ww" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="model">
+        <div class="card-meta">
+          <span class="card-num">NO.02</span>
+          <span class="card-source">LMSYS Blog</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">下一代投机解码：DFlash 与 Spec V2</div>
+        <div class="card-summary">Z Lab、Modal 与 SGLang 联合发布 DFlash 投机解码模型及 Spec V2 引擎。DFlash 采用块扩散+KV 注入并行生成整块 draft token，在 Qwen 3.5 397B 的 HumanEval 数据集上、并发为 1 时吞吐量达基线的 4.3 倍，大幅提升大模型推理效率。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://www.lmsys.org/blog/2026-06-15-next-generation-speculative-decoding-dflash-v2" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 产品发布/更新 -->
+  <section class="section" id="product">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--c-product)"></div>
+      <div class="section-title">产品发布/更新</div>
+      <span class="section-count">7 条</span>
+    </div>
+    <div class="cards">
+
+      <div class="card" data-section="product">
+        <div class="card-meta">
+          <span class="card-num">NO.03</span>
+          <span class="card-source">MarkTechPost</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">Flash-KMeans：IO 感知的精确 K-Means，GPU 上比 FAISS 快 200 倍以上</div>
+        <div class="card-summary">UC Berkeley 与 UT Austin 开源 Flash-KMeans（Apache 2.0），在 H200 上端到端速度比 FAISS 快 200 倍以上。FlashAssign 核避免物化完整 N×K 距离矩阵，IO 复杂度从 O(NK) 降至 O(Nd+Kd)。支持 out-of-core 处理，可一键 pip 安装。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://www.marktechpost.com/2026/06/15/meet-flash-kmeans-an-io-aware-exact-k-means-that-runs-over-200x-faster-than-faiss-on-gpus" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="product">
+        <div class="card-meta">
+          <span class="card-num">NO.04</span>
+          <span class="card-source">xAI News</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">Grok Build 推出 Agent Dashboard 管理多个编码会话</div>
+        <div class="card-summary">xAI 为 Grok Build 上线 Agent Dashboard，可在单屏管理多个并行编码会话，按状态分组显示，支持 peek 面板查看输出并直接回复。通过 grok dashboard 或 Ctrl+\ 打开，关闭后后台会话继续运行。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://x.ai/news/agent-dashboard" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="product">
+        <div class="card-meta">
+          <span class="card-num">NO.05</span>
+          <span class="card-source">TechCrunch AI</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">Meta 在 Facebook 上线"AI Mode"，基于平台公开信息合成答案</div>
+        <div class="card-summary">Meta 在 Facebook 推出 AI Mode 搜索，用 Meta AI 从公开帖子、群组和 Reels 提取信息并合成自然语言答案。同步新增视频拼贴、AI 照片预设（可换服装发型）及体育队服虚拟换装功能，延续 AI 功能快速上线节奏。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="product">
+        <div class="card-meta">
+          <span class="card-num">NO.06</span>
+          <span class="card-source">公众号：月之暗面(Kimi)</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">6 倍速！Kimi K2.7 Code 高速版已上线</div>
+        <div class="card-summary">Kimi K2.7 Code 高速版上线，输出速度约为普通版 5–6 倍，常规编程场景约 180 Token/s，短上下文可达 260 Token/s。API 定价为普通版 2 倍，须开启思考模式。充值 500 元及以上享 20%–30% 代金券活动持续三周。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://mp.weixin.qq.com/s/p87ebkY1xqKtkGZ2N3DGSw" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="product">
+        <div class="card-meta">
+          <span class="card-num">NO.07</span>
+          <span class="card-source">X: OpenRouter</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">OpenRouter 新增免费模型 gpt-oss-20b 和 Gemma4 26B</div>
+        <div class="card-summary">OpenRouter 上线两个免费容量模型：gpt-oss-20b 和 Gemma 4 26B，由 @eigenlabs 的 Darkbloom 提供资源支持。用户可直接免费调用，为开发者提供更多低成本模型选择。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://x.com/OpenRouter/status/2066585705581797616" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="product">
+        <div class="card-meta">
+          <span class="card-num">NO.08</span>
+          <span class="card-source">GitHub Blog</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">GitHub 发布新开源数据集，加速多语言 AI 研究与开发</div>
+        <div class="card-summary">GitHub 在 CC0-1.0 许可下发布仓库级数据集，涵盖 README、issue 和 PR 等多语言开发者内容，旨在帮助研究者跨语言发现技术文档与社区讨论，推动多语言 AI 模型的构建与优化。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="product">
+        <div class="card-meta">
+          <span class="card-num">NO.09</span>
+          <span class="card-source">Claude Code GitHub</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">Claude Code v2.1.178 发布</div>
+        <div class="card-summary">新增 Tool(param:value) 权限规则语法；嵌套 skills 目录自动加载，冲突时以 &lt;dir&gt;:&lt;name&gt; 保留。改进子 agent 分类器评估，/doctor 采用扁平树布局。修复 CLI 继承过期 WebSocket/OAuth 文件描述符导致的崩溃及 Chrome OAuth 账号不匹配连接失败问题。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://github.com/anthropics/claude-code/releases/tag/v2.1.178" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 行业动态 -->
+  <section class="section" id="industry">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--c-industry)"></div>
+      <div class="section-title">行业动态</div>
+      <span class="section-count">4 条</span>
+    </div>
+    <div class="cards">
+
+      <div class="card" data-section="industry">
+        <div class="card-meta">
+          <span class="card-num">NO.10</span>
+          <span class="card-source">TechCrunch AI</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">Salesforce 以 36 亿美元收购 AI 客服平台 Fin</div>
+        <div class="card-summary">Salesforce 宣布以 36 亿美元收购 AI 客服平台 Fin（前身 Intercom），Fin 可跨实时聊天、WhatsApp、短信等多渠道解决客户问题。Salesforce 将整合 Fin 技术至 Agentforce 平台，交易预计 2027 年初完成，联合创始人继续担任 CEO。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="industry">
+        <div class="card-meta">
+          <span class="card-num">NO.11</span>
+          <span class="card-source">The Decoder</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">Nvidia 加入 AI 债务热潮，发行 200 亿美元债券</div>
+        <div class="card-summary">Nvidia 计划通过自 2021 年以来的首次债券发行筹集至少 200 亿美元，标志着这家 AI 芯片巨头加入科技行业债务融资热潮，为持续扩张的 AI 基础设施建设提供资金支持。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://the-decoder.com/nvidia-joins-ai-debt-boom-with-20-billion-bond-sale" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="industry">
+        <div class="card-meta">
+          <span class="card-num">NO.12</span>
+          <span class="card-source">Cloudflare Blog</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">Cloudflare 引入 Ensemble AI 团队，加速 AI 基础设施研发</div>
+        <div class="card-summary">Cloudflare 宣布 Ensemble AI 团队加入，Ensemble 专注模型压缩与高效推理，开发了可替换 Transformer 线性层的 NdLinear 及 NdLinear-LoRA 微调技术。这些成果将整合到 Workers AI 平台，提升全球推理效率与部署经济性。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://blog.cloudflare.com/ensemble-ai-talent-joins-cloudflare" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="industry">
+        <div class="card-meta">
+          <span class="card-num">NO.13</span>
+          <span class="card-source">xAI News</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">xAI 宣布 Grok 集成至 Warp 终端开发环境</div>
+        <div class="card-summary">xAI 与拥有近百万开发者的智能终端 Warp 集成，用户可用 Grok 或 X Premium 订阅在 Warp 中访问 Grok 模型，包括驱动 Grok Build CLI 的专属模型。在 Agent 设置页连接 SuperGrok 即可使用，更多集成即将推出。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://x.ai/news/grok-warp" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 论文研究 -->
+  <section class="section" id="paper">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--c-paper)"></div>
+      <div class="section-title">论文研究</div>
+      <span class="section-count">0 条</span>
+    </div>
+    <div style="text-align:center; padding: 40px 0; color: var(--morandi-light); font-size:14px;">
+      📄 今日暂无论文研究收录
+    </div>
+  </section>
+
+  <!-- 技巧与观点 -->
+  <section class="section" id="tip">
+    <div class="section-header">
+      <div class="section-dot" style="background:var(--c-tip)"></div>
+      <div class="section-title">技巧与观点</div>
+      <span class="section-count">4 条</span>
+    </div>
+    <div class="cards">
+
+      <div class="card" data-section="tip">
+        <div class="card-meta">
+          <span class="card-num">NO.14</span>
+          <span class="card-source">The Verge AI</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">Skydio CEO Adam Bry：硅谷不应为无人机使用画红线</div>
+        <div class="card-summary">美国最大无人机制造商 Skydio CEO 认为，无人机正从工具转向自主基础设施，AI 是核心驱动力。禁止中国产无人机后 Skydio 成主要替代，CEO 表态公司愿意与军方合作，并详解机库+远程操控+软件的规模化路径。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://www.theverge.com/podcast/949195/skydio-ceo-adam-bry-autonmous-drones-china-red-lines-military" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="tip">
+        <div class="card-meta">
+          <span class="card-num">NO.15</span>
+          <span class="card-source">TechCrunch AI</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">AI 裁员浪潮成为火药桶</div>
+        <div class="card-summary">今年科技行业已裁员约 15 万人，日均 974 人，速度比去年快 44%，AI 连续三个月被列为裁员首要原因。Block、Uber、Meta 等公司均有大裁员。与此同时 Cerebras、Anthropic、OpenAI 估值均在千亿美元量级，贫富分化矛盾持续激化。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://techcrunch.com/2026/06/15/the-ai-layoff-wave-is-becoming-a-powder-keg" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="tip">
+        <div class="card-meta">
+          <span class="card-num">NO.16</span>
+          <span class="card-source">Tomer Tunguz 博客</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">AI 应用黄金时代已至：Fable 被禁、Nadella 的护城河论与 Salesforce 收购 Fin</div>
+        <div class="card-summary">三件事标志 AI 应用进入黄金时代：政府封禁 Fable 使开源模型成必备；Nadella 主张护城河在人类专业知识+模型外围系统；Fin 靠开源模型实现性价比被 36 亿美元收购。核心竞争力：选模型、设计 agent 系统、持续评估优化 token 预算。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://www.tomtunguz.com/golden-age-of-applications" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="card" data-section="tip">
+        <div class="card-meta">
+          <span class="card-num">NO.17</span>
+          <span class="card-source">GitHub Blog</span>
+          <span class="card-time">今天上午 08:00</span>
+        </div>
+        <div class="card-title">GitHub Copilot CLI 初学者指南：常用斜杠命令概览</div>
+        <div class="card-summary">GitHub Copilot CLI 为初学者提供常用斜杠命令概述，帮助用户通过命令控制终端中的 AI 智能体，覆盖常见开发场景的快捷指令，降低 Copilot CLI 的上手门槛。</div>
+        <div class="card-footer">
+          <a class="card-link" href="https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands" target="_blank" rel="noopener noreferrer">
+            阅读原文
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2V7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>共收录 <strong>17 条</strong> AI 资讯（2026-06-16 日报期）&nbsp;·&nbsp; 数据来源：<a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">AI HOT · aihot.virxact.com</a> &nbsp;·&nbsp; 时间仅供参考，以原文发布为准</p>
+</footer>
+
+<script>
+  // 滚动渐入动画
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+  );
+  sections.forEach((s) => observer.observe(s));
+
+  // 平滑锚点滚动
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 64;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // 时间格式化（北京时间人话）
+  function formatBeijingTime(isoStr) {
+    const now = new Date();
+    const bjNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Shanghai' }));
+    const date = new Date(isoStr);
+    const bjDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Shanghai' }));
+    const diffMs = bjNow - bjDate;
+    const diffMin = Math.floor(diffMs / 60000);
+    const diffHr = Math.floor(diffMs / 3600000);
+    if (diffMin < 1) return '刚刚';
+    if (diffMin < 60) return diffMin + ' 分钟前';
+    if (diffHr < 24) return diffHr + ' 小时前';
+    const h = bjDate.getHours().toString().padStart(2, '0');
+    const m = bjDate.getMinutes().toString().padStart(2, '0');
+    const isToday = bjDate.toDateString() === bjNow.toDateString();
+    if (isToday) {
+      const period = bjDate.getHours() < 12 ? '上午' : (bjDate.getHours() < 18 ? '下午' : '晚上');
+      return '今天' + period + ' ' + h + ':' + m;
+    }
+    return (bjDate.getMonth() + 1) + '月' + bjDate.getDate() + '日 ' + h + ':' + m;
+  }
+
+  // 页面加载后初始化第一个 section 显示（避免 hero 过长导致首屏无内容）
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      sections[0] && sections[0].classList.add('visible');
+    }, 200);
+  });
+
+  // ── PWA: 注册 Service Worker（断网/添加到主屏幕后离线可用） ──
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').then(
+        () => console.log('[PWA] service worker registered'),
+        (err) => console.warn('[PWA] register failed', err)
+      );
+    });
+  }
+
+  // iOS standalone 模式：拦截 a 标签 target=_blank 的链接走系统浏览器
+  // （PWA 内部没有标签页，target=_blank 在 standalone 下会无响应）
+  if (window.navigator.standalone) {
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[target="_blank"]');
+      if (a && a.href) {
+        e.preventDefault();
+        window.location.href = a.href;
+      }
+    });
+  }
+</script>
+</body>
+</html>
