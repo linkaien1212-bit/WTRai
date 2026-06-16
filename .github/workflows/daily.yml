@@ -19,9 +19,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # 用 secrets.GH_PUSH_TOKEN 推回 main 分支
-          token: ${{ secrets.GH_PUSH_TOKEN }}
+          # 用内置 GITHUB_TOKEN 推回 main 分支
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -41,7 +42,11 @@ jobs:
           python build_daily.py
 
       - name: Commit & push (only when changed)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # 用 token 改写 remote，让 git push 走认证
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git config user.name  "WTRai Daily Bot"
           git config user.email "wtrai-bot@users.noreply.github.com"
           if git status --porcelain | grep -q .; then
